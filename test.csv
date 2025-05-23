@@ -1,3 +1,6 @@
-What is 2+2?,2,3,4,5,C
-Capital of France?,London,Berlin,Paris,Rome,C
-Which is a fruit?,Potato,Carrot,Apple,Onion,C
+question,type,answers,correct_answer
+Коя е столицата на България?,closed,"София,Пловдив,Варна",София
+Коя е столицата на Франция?,closed,"Париж,Лион,Марсилия",Париж
+Кой е авторът на „Под игото“?,closed,"Иван Вазов,Христо Ботев,Алеко Константинов",Иван Вазов
+Опишете процеса на фотосинтеза.,open,,
+Какво е Големият взрив?,open,,
