@@ -1,35 +1,30 @@
 <?php
 require __DIR__ . '/../database/db.php';
 
-$test_id = $_GET['id'];
-
-#Save the result to database and go back to main page
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user = $_POST['user'] ?? 'Анонимен';
-    $stmt = $pdo->prepare("INSERT INTO results (test_id, user) VALUES (?, ?)");
-    $stmt->execute([$test_id, $user]);
-    $result_id = $pdo->lastInsertId();
-
-    foreach ($_POST['answers'] as $qid => $answer) {
-        $stmt = $pdo->prepare("INSERT INTO answers (result_id, question_id, answer) VALUES (?, ?, ?)");
-        $stmt->execute([$result_id, $qid, $answer]);
-    }
-    header("Location: main.php");
+if (!isset($_GET['id'])) {
+    header("Location: ../pages/main.php");
     exit;
 }
+
+$test_id = $_GET['id'];
 
 $questions = $pdo->prepare("SELECT * FROM questions WHERE test_id = ?");
 $questions->execute([$test_id]);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Попълване на тест</title>
 </head>
 <body>
     <h2>Попълни теста</h2>
-    <form method="post">
-        Име: <input type="text" name="user"><br>
+    <form method="post" action="../services/save_answers.php">
+        <input type="hidden" name="test_id" value="<?= $test_id ?>">
+        <!-- TODO: When users are implemented, remove this field -->
+        Име: <input type="text" name="user" required><br>
         <hr>
         <?php foreach ($questions as $q): ?>
             <p><strong><?= htmlspecialchars($q['question']) ?></strong></p>

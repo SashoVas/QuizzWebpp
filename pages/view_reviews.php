@@ -17,41 +17,46 @@ $reviews = $pdo->prepare(
 
 $reviews->execute([$test_id]);
 ?>
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Преглед на рецензии</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h2>Рецензии на тест</h2>
     <p><a href="main.php">← Начална страница</a></p>
     <ul>
-        <?php foreach ($reviews as $r): ?>
+        <?php foreach ($reviews as $review): ?>
             <li>
-                <strong>Ревю от:</strong> <?= htmlspecialchars($r['reviewer']) ?>
-                <strong>За:</strong> <?= htmlspecialchars($r['user']) ?>
-                <em>(<?= $r['review_time'] ?>)</em>
+                <strong>Ревю от:</strong> <?= htmlspecialchars($review['reviewer']) ?>
+                <strong>За:</strong> <?= htmlspecialchars($review['user']) ?>
+                <em>(<?= $review['review_time'] ?>)</em>
                 &nbsp;|&nbsp;
-                <a href="view_reviews.php?id=<?= $test_id ?>&review_id=<?= $r['id'] ?>">Прегледай</a>
+                <a href="view_reviews.php?id=<?= $test_id ?>&review_id=<?= $review['id'] ?>">Прегледай</a>
             </li>
         <?php endforeach; ?>
     </ul>
 
 <?php
+if (!isset($_GET['review_id'])) {
+    echo '</body></html>'; #browser should render page anyway, but add just in case
+    exit;
+}
 
-if (isset($_GET['review_id'])):
-    $review_id = intval($_GET['review_id']);
-    $stmt = $pdo->prepare(
-        "SELECT q.question, d.is_correct, d.comment 
-         FROM review_details d 
-         JOIN questions q ON d.question_id = q.id 
-         WHERE d.review_id = ?"
-    );
-    $stmt->execute([$review_id]);
-    $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$review_id = intval($_GET['review_id']);
+$stmt = $pdo->prepare("
+    SELECT q.question, d.is_correct, d.comment 
+    FROM review_details d 
+    JOIN questions q ON d.question_id = q.id 
+    WHERE d.review_id = ?
+");
+$stmt->execute([$review_id]);
+$details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
     <h3>Детайли на рецензия</h3>
     <?php foreach ($details as $row): ?>
         <div class="review-detail">

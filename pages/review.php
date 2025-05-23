@@ -1,29 +1,24 @@
 <?php
 require __DIR__ . '/../database/db.php';
 
-$test_id = $_GET['id'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $reviewer = $_POST['reviewer'];
-    $result_id = $_POST['result_id'];
-    $stmt = $pdo->prepare("INSERT INTO reviews (result_id, reviewer) VALUES (?, ?)");
-    $stmt->execute([$result_id, $reviewer]);
-    $review_id = $pdo->lastInsertId();
-
-    foreach ($_POST['reviews'] as $qid => $data) {
-        $stmt = $pdo->prepare("INSERT INTO review_details (review_id, question_id, is_correct, comment) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$review_id, $qid, $data['is_correct'], $data['comment']]);
-    }
-    header("Location: main.php");
+if (!isset($_GET['id'])) {
+    header("Location: ../pages/main.php");
     exit;
 }
+
+$test_id = $_GET['id'];
 
 $results = $pdo->prepare("SELECT * FROM results WHERE test_id = ?");
 $results->execute([$test_id]);
 ?>
+
 <!DOCTYPE html>
 <html>
-<head><title>Рецензия</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рецензия</title>
+</head>
 <body>
     <h2>Избери резултат за рецензия</h2>
     <ul>
@@ -35,13 +30,21 @@ $results->execute([$test_id]);
         <?php endforeach; ?>
     </ul>
 
-<?php if (isset($_GET['result_id'])):
-    $rid = $_GET['result_id'];
-    $questions = $pdo->prepare("SELECT q.*, a.answer FROM questions q JOIN answers a ON q.id = a.question_id WHERE a.result_id = ?");
-    $questions->execute([$rid]);
-?>
-<form method="post">
+
+<!-- visualize form only if a test is selected -->
+<?php 
+if (!isset($_GET['result_id'])) {
+    echo '</body></html>'; #browser should render page anyway, but add just in case
+    exit;
+}
+$rid = $_GET['result_id'];
+$questions = $pdo->prepare("SELECT q.*, a.answer FROM questions q JOIN answers a ON q.id = a.question_id WHERE a.result_id = ?");
+$questions->execute([$rid]); 
+?> 
+
+<form action="../services/submit_review.php" method="post">
     <input type="hidden" name="result_id" value="<?= $rid ?>">
+    <input type="hidden" name="test_id" value="<?= $test_id ?>">
     Рецензент: <input type="text" name="reviewer" required>
     <hr>
     <?php foreach ($questions as $q): ?>
@@ -56,6 +59,6 @@ $results->execute([$test_id]);
     <?php endforeach; ?>
     <button type="submit">Запиши рецензия</button>
 </form>
-<?php endif; ?>
+
 </body>
 </html>
