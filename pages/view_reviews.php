@@ -1,14 +1,12 @@
 <?php
-include 'db.php';
+require __DIR__ . '/../database/db.php';
 
-// Проверка за избран тест
 if (!isset($_GET['id'])) {
-    header('Location: index.php');
+    header('Location: main.php');
     exit;
 }
 $test_id = intval($_GET['id']);
 
-// Извличане на рецензиите за теста
 $reviews = $pdo->prepare(
     "SELECT r.id, r.reviewer, r.review_time, u.user 
      FROM reviews r 
@@ -16,6 +14,7 @@ $reviews = $pdo->prepare(
      WHERE u.test_id = ?
      ORDER BY r.review_time DESC"
 );
+
 $reviews->execute([$test_id]);
 ?>
 <!DOCTYPE html>
@@ -27,7 +26,7 @@ $reviews->execute([$test_id]);
 </head>
 <body>
     <h2>Рецензии на тест</h2>
-    <p><a href="index.php">← Начална страница</a></p>
+    <p><a href="main.php">← Начална страница</a></p>
     <ul>
         <?php foreach ($reviews as $r): ?>
             <li>
@@ -41,7 +40,7 @@ $reviews->execute([$test_id]);
     </ul>
 
 <?php
-// Ако е избрана конкретна рецензия – извличаме детайлите
+
 if (isset($_GET['review_id'])):
     $review_id = intval($_GET['review_id']);
     $stmt = $pdo->prepare(

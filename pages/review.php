@@ -1,5 +1,6 @@
 <?php
-include 'db.php';
+require __DIR__ . '/../database/db.php';
+
 $test_id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -13,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO review_details (review_id, question_id, is_correct, comment) VALUES (?, ?, ?, ?)");
         $stmt->execute([$review_id, $qid, $data['is_correct'], $data['comment']]);
     }
-    header("Location: index.php");
+    header("Location: main.php");
     exit;
 }
 

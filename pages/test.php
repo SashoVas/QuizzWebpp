@@ -1,6 +1,9 @@
 <?php
-include 'db.php';
+require __DIR__ . '/../database/db.php';
+
 $test_id = $_GET['id'];
+
+#Save the result to database and go back to main page
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $_POST['user'] ?? 'Анонимен';
     $stmt = $pdo->prepare("INSERT INTO results (test_id, user) VALUES (?, ?)");
@@ -11,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO answers (result_id, question_id, answer) VALUES (?, ?, ?)");
         $stmt->execute([$result_id, $qid, $answer]);
     }
-    header("Location: index.php");
+    header("Location: main.php");
     exit;
 }
 

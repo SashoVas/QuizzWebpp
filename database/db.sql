@@ -1,30 +1,31 @@
-CREATE DATABASE IF NOT EXISTS test_system CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE test_system;
+--script to initialize the mysql database, can be run from phpmyadmin to fill DB
+CREATE DATABASE IF NOT EXISTS mysql_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE mysql_db;
 
-CREATE TABLE tests (
+CREATE TABLE IF NOT EXISTS tests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE questions (
+CREATE TABLE IF NOT EXISTS questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     test_id INT,
     question TEXT,
     type ENUM('open', 'closed'),
-    answers TEXT, -- CSV за затворени
+    answers TEXT,
     correct_answer TEXT,
     FOREIGN KEY (test_id) REFERENCES tests(id) ON DELETE CASCADE
 );
 
-CREATE TABLE results (
+CREATE TABLE IF NOT EXISTS results (
     id INT AUTO_INCREMENT PRIMARY KEY,
     test_id INT,
     user VARCHAR(100),
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE answers (
+CREATE TABLE IF NOT EXISTS answers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     result_id INT,
     question_id INT,
@@ -33,14 +34,14 @@ CREATE TABLE answers (
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     result_id INT,
     reviewer VARCHAR(100),
     review_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE review_details (
+CREATE TABLE IF NOT EXISTS review_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     review_id INT,
     question_id INT,

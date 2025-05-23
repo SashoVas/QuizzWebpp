@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+require __DIR__ . '/../database/db.php';
 
 if ($_FILES['csv']['tmp_name'] && $_POST['test_name']) {
     $test_name = $_POST['test_name'];
@@ -16,4 +16,6 @@ if ($_FILES['csv']['tmp_name'] && $_POST['test_name']) {
 
     fclose($file);
 }
-header("Location: index.php");
+
+#go back to index.php to visualize the new test
+header("Location: ../pages/main.php");
