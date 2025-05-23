@@ -68,7 +68,6 @@ $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <hr>
         </div>
     <?php endforeach; ?>
-<?php endif; ?>
 
 </body>
 </html>

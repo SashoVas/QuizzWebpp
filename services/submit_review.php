@@ -1,12 +1,12 @@
 <?php
 require __DIR__ . '/../database/db.php';
 
-if (!isset($_POST['id'])) {
+if (!isset($_POST['test_id'])) {
     header("Location: ../pages/main.php");
     exit;
 }
 
-$test_id = $_POST['id'];
+$test_id = $_POST['test_id'];
 $reviewer = $_POST['reviewer'];
 $result_id = $_POST['result_id'];
 $stmt = $pdo->prepare("INSERT INTO reviews (result_id, reviewer) VALUES (?, ?)");
