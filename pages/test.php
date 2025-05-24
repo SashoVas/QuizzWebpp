@@ -1,21 +1,22 @@
 <?php
-require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_GET['id'])) {
-    header("Location: ../pages/main.php");
-    exit;
-}
+    check_auth_get(['id']);
 
-$test_id = $_GET['id'];
+    $test_id = $_GET['id'];
 
-$questions = $pdo->prepare("SELECT * FROM questions WHERE test_id = ?");
-$questions->execute([$test_id]);
+    $questions = $pdo->prepare("SELECT * FROM questions WHERE test_id = ?");
+    $questions->execute([$test_id]);
 
-session_start();
+    if ($questions->rowCount() === 0) {
+        header("Location: ../pages/main.php?message=error&error=bad_request");
+        exit;
+    }
 
-// Load previous form inputs if available
-$form_inputs = $_SESSION['form_inputs'] ?? [];
-unset($_SESSION['form_inputs']);
+    // Load previous form inputs if available
+    $form_inputs = $_SESSION['form_inputs'] ?? [];
+    unset($_SESSION['form_inputs']);
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +53,7 @@ unset($_SESSION['form_inputs']);
             <?php endif; ?>
             <hr>
         <?php endforeach; ?>
-        
+
         <button type="submit">Изпрати</button>
     </form>
 </body>

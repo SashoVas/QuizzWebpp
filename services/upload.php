@@ -1,8 +1,10 @@
 <?php
-<?php
 require __DIR__ . '/../database/db.php';
+require __DIR__ . '/../services/auth_helpers.php';
 
-if (!$_FILES['csv']['tmp_name'] || !$_POST['test_name']) {
+check_auth_post(['test_name']);
+
+if (!$_FILES['csv']['tmp_name'] ) {
     header("Location: ../pages/main.php");
     exit;
 }
@@ -23,14 +25,14 @@ try {
     fclose($file);
 
     $pdo->commit();
-    header("Location: ../pages/main.php");
+    header("Location: ../pages/main.php?message=success");
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
     if (isset($file) && is_resource($file)) {
         fclose($file);
     }
-    header("Location: ../pages/main.php?error=upload");
+    header("Location: ../pages/main.php?message=error&error=upload");
     exit;
 }
 ?>

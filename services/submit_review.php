@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../database/db.php';
+require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_POST['test_id'])) {
-    header("Location: ../pages/main.php");
-    exit;
-}
+check_auth_post(['test_id', 'reviewer', 'result_id', 'reviews']);
 
 $test_id = $_POST['test_id'];
 $reviewer = $_POST['reviewer'];
@@ -22,11 +20,10 @@ try {
     }
 
     $pdo->commit();
-    header("Location: ../pages/main.php");
+    header("Location: ../pages/main.php?message=success");
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
-    // Redirect back to review page with error and preserve test_id and result_id
     header("Location: ../pages/review.php?id=$test_id&result_id=$result_id&error=review");
     exit;
 }

@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../database/db.php';
+require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_POST['test_id'])) {
-    header("Location: ../pages/main.php");
-    exit;
-}
+check_auth_post(['test_id', 'user', 'answers']);
 
 $test_id = $_POST['test_id'];
 $user = $_POST['user'];
@@ -21,12 +19,11 @@ try {
     }
 
     $pdo->commit();
-    header("Location: ../pages/main.php");
+    header("Location: ../pages/main.php?message=success");
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
 
-    # Preserve the test answers and user in session
     session_start();
     $_SESSION['form_inputs'] = [
         'user' => $user,

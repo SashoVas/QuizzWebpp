@@ -1,21 +1,20 @@
 <?php
-require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_GET['id'])) {
-    header('Location: main.php');
-    exit;
-}
-$test_id = intval($_GET['id']);
+    check_auth_get(['id']);
 
-$reviews = $pdo->prepare(
-    "SELECT r.id, r.reviewer, r.review_time, u.user 
-     FROM reviews r 
-     JOIN results u ON r.result_id = u.id 
-     WHERE u.test_id = ?
-     ORDER BY r.review_time DESC"
-);
+    $test_id = intval($_GET['id']);
 
-$reviews->execute([$test_id]);
+    $reviews = $pdo->prepare(
+        "SELECT r.id, r.reviewer, r.review_time, u.user 
+        FROM reviews r 
+        JOIN results u ON r.result_id = u.id 
+        WHERE u.test_id = ?
+        ORDER BY r.review_time DESC"
+    );
+
+    $reviews->execute([$test_id]);
 ?>
 
 <!DOCTYPE html>

@@ -1,14 +1,12 @@
 <?php
-session_start();
+    require __DIR__ . '/../services/auth_helpers.php';
+    
+    session_start();
+    generate_csrf_in_session();
 
-if (!isset($_SESSION['csrf_token']) || empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-$errors = $_SESSION['form_errors'] ?? [];
-$inputs = $_SESSION['form_inputs'] ?? [];
-
-unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
+    $errors = $_SESSION['form_errors'] ?? [];
+    $inputs = $_SESSION['form_inputs'] ?? [];
+    unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
 ?>
 <!DOCTYPE html>
 <html lang="bg">
@@ -18,6 +16,12 @@ unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
 </head>
 <body>
     <h1>Вход</h1>
+
+    <?php if (isset($_GET['message']) && $_GET['message'] === 'registered'): ?>
+        <div>
+            Регистрацията беше успешна! Моля, влезте с вашите данни.
+        </div>
+    <?php endif; ?>
 
     <form method="post" action="../services/validate_login.php">
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">

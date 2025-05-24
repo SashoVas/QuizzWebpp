@@ -1,15 +1,18 @@
 <?php
-require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../database/db.php';
+    require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_GET['id'])) {
-    header("Location: ../pages/main.php");
-    exit;
-}
+    check_auth_get(['id']);
 
-$test_id = $_GET['id'];
+    $test_id = $_GET['id'];
 
-$results = $pdo->prepare("SELECT * FROM results WHERE test_id = ?");
-$results->execute([$test_id]);
+    $results = $pdo->prepare("SELECT * FROM results WHERE test_id = ?");
+    $results->execute([$test_id]);
+
+    if ($results->rowCount() === 0) {
+        header("Location: ../pages/main.php?message=error&error=bad_request");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>

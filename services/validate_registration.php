@@ -1,16 +1,9 @@
 <?php
-require '../database/db.php';
+require __DIR__ . '/../database/db.php';
+require __DIR__ . '/../services/auth_helpers.php';
 
-if (!isset($_POST['username'])) {
-    header('Location: ../pages/register.php');
-    exit;
-}
+check_auth_post(['username', 'email', 'password', 'password_confirm'], true);
 
-session_start();
-
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? null)) {
-    die('Invalid CSRF token');
-}
 
 $errors = [];
 
@@ -57,13 +50,11 @@ if (empty($errors)) {
         $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
         $stmt->execute([$username, $email, $password_hash]);
 
-        $_SESSION['user_id'] = $pdo->lastInsertId();
-        $_SESSION['username'] = $username;
         unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
 
         $pdo->commit();
 
-        header('Location: ../pages/main.php');
+        header('Location: ../pages/login.php?message=registered');
         exit;
     } catch (Exception $e) {
         $pdo->rollBack();

@@ -1,11 +1,13 @@
 <?php
+    require __DIR__ . '/../services/auth_helpers.php';
+    
     session_start();
+    generate_csrf_in_session();
+
     $errors = $_SESSION['form_errors'] ?? [];
     $inputs = $_SESSION['form_inputs'] ?? [];
-    if (!isset($_SESSION['csrf_token']) || empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
     unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
