@@ -1,6 +1,7 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../services/auth_helpers.php';
+    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../helpers/message_visualizer.php';
 
     session_start();
     check_auth_get();
@@ -16,19 +17,7 @@
 <body>
     <h1>Начална страница</h1>
 
-    <!-- TODO: display specific error messages, handling logic should be separate -->
-    <?php if (isset($_GET['message']) && $_GET['message'] === 'error'): ?>
-        <div>
-            Възникна грешка. Моля, опитайте отново.
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_GET['message']) && $_GET['message'] === 'success'): ?>
-        <div>
-            Действието е успешно завършено.
-        </div>
-    <?php endif; ?>
-    <!-- ^^^-->
+    <?php visualize_message(); ?>
 
     <h2>Качи CSV файл за тест</h2>
     <form action="../services/upload.php" method="post" enctype="multipart/form-data">
@@ -45,8 +34,8 @@
         foreach ($stmt as $row) {
             echo "<li>{$row['name']} 
                     <a href='test.php?id={$row['id']}'>Направи теста</a> 
-                    <a href='review.php?id={$row['id']}'>Рецензия</a> 
-                    <a href='view_reviews.php?id={$row['id']}'>Рецензии</a>
+                    <a href='review.php?id={$row['id']}'>Направи рецензия</a> 
+                    <a href='view_reviews.php?id={$row['id']}'>Виж съществуващи рецензии</a>
                   </li>";
         }
         ?>

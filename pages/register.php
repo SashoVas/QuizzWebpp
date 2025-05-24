@@ -1,5 +1,5 @@
 <?php
-    require __DIR__ . '/../services/auth_helpers.php';
+    require __DIR__ . '/../helpers/auth_helpers.php';
     
     session_start();
     generate_csrf_in_session();

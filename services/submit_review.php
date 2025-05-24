@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../database/db.php';
-require __DIR__ . '/../services/auth_helpers.php';
+require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['test_id', 'reviewer', 'result_id', 'reviews']);
 
@@ -24,7 +24,7 @@ try {
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
-    header("Location: ../pages/review.php?id=$test_id&result_id=$result_id&error=review");
+    header("Location: ../pages/review.php?id=$test_id&result_id=$result_id&message=error&error=review");
     exit;
 }
 ?>

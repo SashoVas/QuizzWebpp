@@ -1,6 +1,7 @@
 <?php
-    require __DIR__ . '/../services/auth_helpers.php';
-    
+    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../helpers/message_visualizer.php';
+
     session_start();
     generate_csrf_in_session();
 
@@ -17,11 +18,7 @@
 <body>
     <h1>Вход</h1>
 
-    <?php if (isset($_GET['message']) && $_GET['message'] === 'registered'): ?>
-        <div>
-            Регистрацията беше успешна! Моля, влезте с вашите данни.
-        </div>
-    <?php endif; ?>
+    <?php visualize_message(); ?>
 
     <form method="post" action="../services/validate_login.php">
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">

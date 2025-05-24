@@ -1,6 +1,7 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../services/auth_helpers.php';
+    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
 
@@ -8,11 +9,6 @@
 
     $results = $pdo->prepare("SELECT * FROM results WHERE test_id = ?");
     $results->execute([$test_id]);
-
-    if ($results->rowCount() === 0) {
-        header("Location: ../pages/main.php?message=error&error=bad_request");
-        exit;
-    }
 ?>
 
 <!DOCTYPE html>
@@ -24,11 +20,14 @@
 </head>
 <body>
     <h2>Избери резултат за рецензия</h2>
-    <?php if (isset($_GET['error']) && $_GET['error'] === 'review'): ?>
-        <div>
-            Възникна грешка при записване на рецензията. Моля, опитайте отново.
-        </div>
-    <?php endif; ?>
+
+    <?php 
+        if ((!isset($_GET['error'])) && $results->rowCount() === 0) {
+            header("Location: ./review.php?id={$test_id}&message=error&error=no_results");
+        }
+        visualize_message();
+    ?>
+    
     <ul>
         <?php foreach ($results as $r): ?>
             <li>

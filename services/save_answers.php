@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../database/db.php';
-require __DIR__ . '/../services/auth_helpers.php';
+require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['test_id', 'user', 'answers']);
 
@@ -30,7 +30,7 @@ try {
         'answers' => $_POST['answers']
     ];
 
-    header("Location: ../pages/test.php?id=$test_id&error=save");
+    header("Location: ../pages/test.php?id=$test_id&message=error&error=save");
     exit;
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../services/auth_helpers.php';
+    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
 
@@ -28,11 +29,9 @@
 </head>
 <body>
     <h2>Попълни теста</h2>
-    <?php if (isset($_GET['error']) && $_GET['error'] === 'save'): ?>
-        <div style="color: red; font-weight: bold;">
-            Възникна грешка при записване на отговорите. Моля, опитайте отново.
-        </div>
-    <?php endif; ?>
+
+    <?php visualize_message(); ?>
+    
     <form method="post" action="../services/save_answers.php">
         <input type="hidden" name="test_id" value="<?= $test_id ?>">
         Име: <input type="text" name="user" value="<?= htmlspecialchars($form_inputs['user'] ?? '') ?>" required><br>
