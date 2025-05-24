@@ -8,7 +8,7 @@ if (!isset($_POST['username'])) {
 
 session_start();
 
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? null)) {
     die('Invalid CSRF token');
 }
 
@@ -41,14 +41,14 @@ if ($password !== $password_confirm) {
     $errors['password_confirm'] = 'Паролите не съвпадат';
 }
 
-# Check if username or email already exists
+#check if username or email already exists
 $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
 $stmt->execute([$username, $email]);
 if ($stmt->fetch()) {
     $errors['final'] = 'Потребителското име или имейлът вече съществува';
 }
 
-# Register user if no errors
+#register user if no errors
 if (empty($errors)) {
     try {
         $pdo->beginTransaction();
@@ -63,7 +63,7 @@ if (empty($errors)) {
 
         $pdo->commit();
 
-        header('Location: ../pages/index.php');
+        header('Location: ../pages/main.php');
         exit;
     } catch (Exception $e) {
         $pdo->rollBack();
@@ -71,7 +71,6 @@ if (empty($errors)) {
     }
 }
 
-# If there are errors, store them in session and redirect back to the form
 $_SESSION['form_errors'] = $errors;
 
 #keeping password breaks security
