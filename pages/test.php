@@ -10,6 +10,12 @@ $test_id = $_GET['id'];
 
 $questions = $pdo->prepare("SELECT * FROM questions WHERE test_id = ?");
 $questions->execute([$test_id]);
+
+session_start();
+
+// Load previous form inputs if available
+$form_inputs = $_SESSION['form_inputs'] ?? [];
+unset($_SESSION['form_inputs']);
 ?>
 
 <!DOCTYPE html>
@@ -21,22 +27,32 @@ $questions->execute([$test_id]);
 </head>
 <body>
     <h2>Попълни теста</h2>
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'save'): ?>
+        <div style="color: red; font-weight: bold;">
+            Възникна грешка при записване на отговорите. Моля, опитайте отново.
+        </div>
+    <?php endif; ?>
     <form method="post" action="../services/save_answers.php">
         <input type="hidden" name="test_id" value="<?= $test_id ?>">
-        <!-- TODO: When users are implemented, remove this field -->
-        Име: <input type="text" name="user" required><br>
+        Име: <input type="text" name="user" value="<?= htmlspecialchars($form_inputs['user'] ?? '') ?>" required><br>
         <hr>
+
         <?php foreach ($questions as $q): ?>
             <p><strong><?= htmlspecialchars($q['question']) ?></strong></p>
             <?php if ($q['type'] == 'closed'): ?>
                 <?php foreach (explode(',', $q['answers']) as $ans): ?>
-                    <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="<?= htmlspecialchars($ans) ?>" required> <?= htmlspecialchars($ans) ?></label><br>
+                    <label>
+                        <input type="radio" name="answers[<?= $q['id'] ?>]" value="<?= htmlspecialchars($ans) ?>" required
+                            <?php if (($form_inputs['answers'][$q['id']] ?? '') === $ans) echo 'checked'; ?>>
+                        <?= htmlspecialchars($ans) ?>
+                    </label><br>
                 <?php endforeach; ?>
             <?php else: ?>
-                <textarea name="answers[<?= $q['id'] ?>]" rows="3" cols="40" required></textarea>
+                <textarea name="answers[<?= $q['id'] ?>]" rows="3" cols="40" required><?= htmlspecialchars($form_inputs['answers'][$q['id']] ?? '') ?></textarea>
             <?php endif; ?>
             <hr>
         <?php endforeach; ?>
+        
         <button type="submit">Изпрати</button>
     </form>
 </body>

@@ -10,6 +10,12 @@
 <body>
     <h1>Начална страница</h1>
 
+     <?php if (isset($_GET['error']) && $_GET['error'] === 'upload'): ?>
+        <div>
+            Възникна грешка при качването на теста. Моля, опитайте отново.
+        </div>
+    <?php endif; ?>
+
     <h2>Качи CSV файл за тест</h2>
     <form action="../services/upload.php" method="post" enctype="multipart/form-data">
         <input type="file" name="csv">

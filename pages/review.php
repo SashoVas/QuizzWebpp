@@ -21,6 +21,11 @@ $results->execute([$test_id]);
 </head>
 <body>
     <h2>Избери резултат за рецензия</h2>
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'review'): ?>
+        <div>
+            Възникна грешка при записване на рецензията. Моля, опитайте отново.
+        </div>
+    <?php endif; ?>
     <ul>
         <?php foreach ($results as $r): ?>
             <li>
