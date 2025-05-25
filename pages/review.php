@@ -52,6 +52,7 @@ $questions->execute([$rid]);
 ?> 
 
 <form action="../services/submit_review.php" method="post">
+    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
     <input type="hidden" name="result_id" value="<?= $rid ?>">
     <input type="hidden" name="test_id" value="<?= $test_id ?>">
     Рецензент: <input type="text" name="reviewer" required>
