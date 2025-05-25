@@ -1,6 +1,6 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../services/logout.php';
     require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
@@ -21,6 +21,11 @@
     <script src="../js/form_warning.js"></script>
 </head>
 <body>
+    <?php 
+        if ($results->rowCount() !== 0) {
+            add_logout_button();
+        }
+    ?>
     <h2>Избери резултат за рецензия</h2>
     <p><a href="main.php">← Начална страница</a></p>
     <?php 

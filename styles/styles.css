@@ -210,6 +210,18 @@ ul li a {
     margin-bottom: 0;
 }
 
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
 @media (max-width: 600px) {
     form, .review-detail {
         padding: 15px;

@@ -1,7 +1,7 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../helpers/auth_helpers.php';
     require __DIR__ . '/../helpers/message_visualizer.php';
+    require __DIR__ . '/../services/logout.php';
 
     check_auth_get();
 ?>
@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
+    <?php add_logout_button(); ?>
+
     <h1>Начална страница</h1>
 
     <?php visualize_message(); ?>

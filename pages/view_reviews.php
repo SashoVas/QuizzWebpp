@@ -1,6 +1,6 @@
 <?php
     require __DIR__ . '/../database/db.php';
-    require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../services/logout.php';
     require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
+    <?php 
+    if ($reviews->rowCount() !== 0) {
+        add_logout_button();
+    }
+    ?>
     <h2>Рецензии на тест</h2>
     <p><a href="main.php">← Начална страница</a></p>
     <?php 

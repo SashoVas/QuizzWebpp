@@ -1,0 +1,16 @@
+RewriteEngine On
+RewriteBase /QuizzWebpp/
+
+#redirect root to main.php
+RewriteRule ^$ /QuizzWebpp/pages/main.php [R=302,L]
+
+#skip if the file or directory exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#skip register.php and assets to prevent infinite loops
+RewriteCond %{REQUEST_URI} !^/QuizzWebpp/pages/register\.php [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|png|gif|ico)$ [NC]
+
+#redirect non-existent paths to main.php
+RewriteRule ^(.*)$ /QuizzWebpp/pages/main.php [R=302,L]
