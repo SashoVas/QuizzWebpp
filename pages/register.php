@@ -1,7 +1,6 @@
 <?php
     require __DIR__ . '/../helpers/auth_helpers.php';
     
-    session_start();
     generate_csrf_in_session();
 
     $errors = $_SESSION['form_errors'] ?? [];
@@ -15,6 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
     <h1>Регистрация</h1>

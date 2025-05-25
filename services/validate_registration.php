@@ -4,7 +4,6 @@ require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['username', 'email', 'password', 'password_confirm'], true);
 
-
 $errors = [];
 
 $username = trim($_POST['username']);
@@ -54,7 +53,7 @@ if (empty($errors)) {
 
         $pdo->commit();
 
-        header('Location: ../pages/login.php?message=registered');
+        header('Location: ../pages/login.php?message=success&success=register');
         exit;
     } catch (Exception $e) {
         $pdo->rollBack();

@@ -27,7 +27,7 @@ if (empty($errors)) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); #set new token after login
         unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
-        header('Location: ../pages/main.php?message=success');
+        header('Location: ../pages/main.php?message=success&success=login');
         exit;
     } else {
         $errors['final'] = 'Невалидни данни за вход';

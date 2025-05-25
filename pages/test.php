@@ -26,12 +26,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Попълване на тест</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../js/form_warning.js"></script>
 </head>
 <body>
     <h2>Попълни теста</h2>
-
+    <p><a href="main.php">← Начална страница</a></p>
     <?php visualize_message(); ?>
-    
+
     <form method="post" action="../services/save_answers.php">
         <input type="hidden" name="test_id" value="<?= $test_id ?>">
         Име: <input type="text" name="user" value="<?= htmlspecialchars($form_inputs['user'] ?? '') ?>" required><br>

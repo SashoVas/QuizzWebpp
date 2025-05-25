@@ -17,13 +17,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рецензия</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../js/form_warning.js"></script>
 </head>
 <body>
     <h2>Избери резултат за рецензия</h2>
-
+    <p><a href="main.php">← Начална страница</a></p>
     <?php 
         if ((!isset($_GET['error'])) && $results->rowCount() === 0) {
-            header("Location: ./review.php?id={$test_id}&message=error&error=no_results");
+            header("Location: ./review.php?id={$test_id}&message=error&error=no_tests");
         }
         visualize_message();
     ?>

@@ -2,7 +2,6 @@
     require __DIR__ . '/../helpers/auth_helpers.php';
     require __DIR__ . '/../helpers/message_visualizer.php';
 
-    session_start();
     generate_csrf_in_session();
 
     $errors = $_SESSION['form_errors'] ?? [];
@@ -14,6 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
     <h1>Вход</h1>

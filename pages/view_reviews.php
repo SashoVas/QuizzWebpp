@@ -1,6 +1,7 @@
 <?php
     require __DIR__ . '/../database/db.php';
     require __DIR__ . '/../helpers/auth_helpers.php';
+    require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
 
@@ -23,10 +24,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Преглед на рецензии</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
     <h2>Рецензии на тест</h2>
     <p><a href="main.php">← Начална страница</a></p>
+    <?php 
+        if ((!isset($_GET['error'])) && $reviews->rowCount() === 0) {
+            header("Location: ./view_reviews.php?id={$test_id}&message=error&error=no_reviews");
+        }
+        visualize_message();
+    ?>
     <ul>
         <?php foreach ($reviews as $review): ?>
             <li>
