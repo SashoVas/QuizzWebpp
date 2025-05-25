@@ -32,12 +32,18 @@
         $stmt = $pdo->query("SELECT * FROM tests");
         foreach ($stmt as $row) {
             echo "<li>
-                <span class='test-name'>{$row['name']}</span>
-                <span class='test-links'> 
-                    <a href='test.php?id={$row['id']}'>Направи теста</a> 
-                    <a href='review.php?id={$row['id']}'>Направи рецензия</a> 
-                    <a href='view_reviews.php?id={$row['id']}'>Виж съществуващи рецензии</a>
-                    </span>
+                      <span class='test-name'>{$row['name']}</span>
+                      <span class='test-links'> 
+                          <a href='test.php?id={$row['id']}'>Направи теста</a> 
+                          <a href='review.php?id={$row['id']}'>Направи рецензия</a> 
+                          <a href='view_reviews.php?id={$row['id']}'>Виж съществуващи рецензии</a>
+                          <a href='../services/export_test.php?id={$row['id']}'>Експорт в XML</a>
+                          <form action='../services/delete_test.php' method='post' onsubmit=\"return confirm('Сигурни ли сте, че искате да изтриете този тест?');\">
+                              <input type='hidden' name='id' value='{$row['id']}'>
+                              <input type='hidden' name='csrf_token' value='{$_SESSION['csrf_token']}'>
+                              <button type='submit' class='delete-link'>Изтрий</button>
+                          </form>
+                      </span>
                   </li>";
         }
         ?>

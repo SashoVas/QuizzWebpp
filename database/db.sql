@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS results (
     id INT AUTO_INCREMENT PRIMARY KEY,
     test_id INT,
     user VARCHAR(100),
-    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (test_id) REFERENCES tests(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answers (
@@ -29,15 +30,16 @@ CREATE TABLE IF NOT EXISTS answers (
     result_id INT,
     question_id INT,
     answer TEXT,
-    FOREIGN KEY (result_id) REFERENCES results(id),
-    FOREIGN KEY (question_id) REFERENCES questions(id)
+    FOREIGN KEY (result_id) REFERENCES results(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     result_id INT,
     reviewer VARCHAR(100),
-    review_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    review_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (result_id) REFERENCES results(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS review_details (
@@ -46,8 +48,8 @@ CREATE TABLE IF NOT EXISTS review_details (
     question_id INT,
     is_correct BOOLEAN,
     comment TEXT,
-    FOREIGN KEY (review_id) REFERENCES reviews(id),
-    FOREIGN KEY (question_id) REFERENCES questions(id)
+    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS users (

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>$course$/test3</text>
+    </category>
+  </question>
+  <question type="multichoice">
+    <name>
+      <text>Коя е столицата на България...</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Коя е столицата на България?]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>София</text>
+      <feedback>
+        <text>correct</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Пловдив</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Варна</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <shuffleanswers>1</shuffleanswers>
+    <single>true</single>
+    <answernumbering>abc</answernumbering>
+  </question>
+  <question type="multichoice">
+    <name>
+      <text>Коя е столицата на Франция?...</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Коя е столицата на Франция?]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>Париж</text>
+      <feedback>
+        <text>correct</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Лион</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Марсилия</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <shuffleanswers>1</shuffleanswers>
+    <single>true</single>
+    <answernumbering>abc</answernumbering>
+  </question>
+  <question type="multichoice">
+    <name>
+      <text>Кой е авторът на „Под игото...</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Кой е авторът на „Под игото“?]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>Иван Вазов</text>
+      <feedback>
+        <text>correct</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Христо Ботев</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Алеко Константинов</text>
+      <feedback>
+        <text>incorrect</text>
+      </feedback>
+    </answer>
+    <shuffleanswers>1</shuffleanswers>
+    <single>true</single>
+    <answernumbering>abc</answernumbering>
+  </question>
+  <question type="essay">
+    <name>
+      <text>Опишете процеса на фотосин�...</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Опишете процеса на фотосинтеза.]]></text>
+    </questiontext>
+    <answer fraction="0">
+      <text/>
+    </answer>
+  </question>
+  <question type="essay">
+    <name>
+      <text>Какво е Големият взрив?...</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Какво е Големият взрив?]]></text>
+    </questiontext>
+    <answer fraction="0">
+      <text/>
+    </answer>
+  </question>
+</quiz>

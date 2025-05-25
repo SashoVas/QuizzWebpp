@@ -15,6 +15,9 @@ function visualize_success() {
         case 'login':
             echo '<div class="success-message">Влезнахте успешно!</div>';
             break;
+        case 'delete':
+            echo '<div class="success-message">Тестът беше изтрит успешно!</div>';
+            break;
         default:
             echo '<div class="success-message">Операцията беше успешна!</div>';
     }
@@ -43,6 +46,9 @@ function visualize_error() {
             break;
         case 'no_reviews':
             echo '<div class="error-message">Тестът все още няма рецензии от никого.</div>';
+            break;
+        case 'delete':
+            echo '<div class="error-message">Грешка при изтриване на теста. Моля, опитайте отново.</div>';
             break;
         default:
             echo '<div class="error-message">Възникна грешка. Моля, опитайте отново.</div>';
