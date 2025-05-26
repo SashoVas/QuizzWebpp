@@ -77,6 +77,7 @@ $_SESSION['form_errors'] = $errors;
 $_SESSION['form_inputs'] = [
     'username' => $username,
     'email' => $email,
+    'roles' => $_POST['roles'] ?? []
 ];
 header('Location: ../pages/register.php');
 exit;

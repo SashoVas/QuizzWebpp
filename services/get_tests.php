@@ -16,14 +16,19 @@ function get_role_based_links($row) {
         "
     ];
 
-    $showLinks = [$links['test'], $links['view_reviews']];
+    $showLinks = [];
 
     if (isset($_SESSION['roles'])) {
+        if (in_array('student', $_SESSION['roles'])) {
+            array_push($showLinks, $links['test']);
+        }
         if (in_array('teacher', $_SESSION['roles'])) {
-            array_push($showLinks, $links['review'], $links['export']);
+            array_push($showLinks, $links['view_reviews'], $links['review'], $links['export']);
         }
         else if (in_array('admin', $_SESSION['roles'])) {
-            array_push($showLinks, $links['review'], $links['export'], $links['delete']);
+            foreach ($links as $link) {
+                array_push($showLinks, $link);
+            }
         }
     }
 
