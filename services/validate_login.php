@@ -18,13 +18,14 @@ if (empty($password)) {
 }
 
 if (empty($errors)) {
-    $stmt = $pdo->prepare("SELECT id, username, password_hash FROM users WHERE username = ? OR email = ?");
+    $stmt = $pdo->prepare("SELECT id, username, password_hash, roles FROM users WHERE username = ? OR email = ?");
     $stmt->execute([$usernameOrEmail, $usernameOrEmail]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password_hash'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['roles'] = explode(',', $user['roles'] ?? '');
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); #set new token after login
         unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
         header('Location: ../pages/main.php?message=success&success=login');

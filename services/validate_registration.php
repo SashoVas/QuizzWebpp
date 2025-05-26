@@ -33,6 +33,15 @@ if ($password !== $password_confirm) {
     $errors['password_confirm'] = 'Паролите не съвпадат';
 }
 
+if (empty($_POST['roles'])) {
+    $errors['roles'] = 'Моля, изберете поне една роля.';
+} else {
+    $roles = $_POST['roles'];
+    if (in_array('admin', $roles) && count($roles) > 1) {
+        $errors['roles'] = 'Не можете да изберете други роли, ако сте Админ.';
+    }
+}
+
 #check if username or email already exists
 $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
 $stmt->execute([$username, $email]);
@@ -46,8 +55,9 @@ if (empty($errors)) {
         $pdo->beginTransaction();
 
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
-        $stmt->execute([$username, $email, $password_hash]);
+        $roles = implode(',', $_POST['roles']);
+        $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash, roles) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$username, $email, $password_hash, $roles]);
 
         unset($_SESSION['form_errors'], $_SESSION['form_inputs']);
 

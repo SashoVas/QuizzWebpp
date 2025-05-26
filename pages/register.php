@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
     <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../js/checkbox_toggler.js"></script>
 </head>
 <body>
     <h1>Регистрация</h1>
@@ -60,6 +61,33 @@
             <?php endif; ?>
         </div>
         
+        <div class="form-group">
+            <label>Роля:</label>
+            <div>
+                <label>
+                    <input type="checkbox" id="role-student" name="roles[]" value="student"
+                        <?= (isset($inputs['roles']) && in_array('student', $inputs['roles'])) ? 'checked' : '' ?>
+                        onchange="toggleAdminCheckbox(this)">
+                    Студент
+                </label>
+                <label>
+                    <input type="checkbox" id="role-teacher" name="roles[]" value="teacher"
+                        <?= (isset($inputs['roles']) && in_array('teacher', $inputs['roles'])) ? 'checked' : '' ?>
+                        onchange="toggleAdminCheckbox(this)">
+                    Преподавател
+                </label>
+                <label>
+                    <input type="checkbox" id="role-admin" name="roles[]" value="admin"
+                        <?= (isset($inputs['roles']) && in_array('admin', $inputs['roles'])) ? 'checked' : '' ?>
+                        onchange="toggleOtherCheckboxes(this)">
+                    Админ
+                </label>
+            </div>
+            <?php if (isset($errors['roles'])): ?>
+                <div class="error"><?= htmlspecialchars($errors['roles']) ?></div>
+            <?php endif; ?>
+        </div>
+
         <button type="submit">Регистрирай се</button>
     </form>
     
