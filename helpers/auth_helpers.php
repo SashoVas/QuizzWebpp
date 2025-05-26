@@ -53,4 +53,51 @@ function check_auth_post($fields = [], $prelogin = false) {
         }
     }
 }
+
+function validate_user_roles($roles) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['roles']) || !is_array($_SESSION['roles']) || empty($_SESSION['roles'])) {
+        header("Location: ../pages/login.php?message=error&error=auth");
+        exit;
+    }
+    
+    $userRoles = $_SESSION['roles'];
+
+    $found = False;
+    foreach ($roles as $role) {
+        if (in_array($role, $userRoles)) {
+            $found = True;
+            break;
+        }
+    }
+
+    if (!$found) {
+        header("Location: ../pages/main.php?message=error&error=access_denied");
+        exit;
+    }
+}
+
+function check_user_roles($roles) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['roles']) || !is_array($_SESSION['roles']) || empty($_SESSION['roles'])) {
+        return false;
+    }
+    
+    $userRoles = $_SESSION['roles'];
+
+    $found = False;
+    foreach ($roles as $role) {
+        if (in_array($role, $userRoles)) {
+           return true;
+        }
+    }
+    
+    return false;
+}
 ?>

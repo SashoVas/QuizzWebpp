@@ -3,6 +3,7 @@ require __DIR__ . '/../database/db.php';
 require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['test_name']);
+validate_user_roles(['teacher', 'admin']);
 
 if (!$_FILES['csv']['tmp_name'] ) {
     header("Location: ../pages/main.php");

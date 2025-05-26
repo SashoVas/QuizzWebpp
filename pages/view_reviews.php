@@ -4,6 +4,7 @@
     require __DIR__ . '/../helpers/message_visualizer.php';
 
     check_auth_get(['id']);
+    validate_user_roles(['teacher', 'admin']);
 
     $test_id = intval($_GET['id']);
 

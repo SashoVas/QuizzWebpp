@@ -3,6 +3,7 @@ require __DIR__ . '/../database/db.php';
 require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['test_id', 'reviewer', 'result_id', 'reviews']);
+validate_user_roles(['teacher', 'admin']);
 
 $test_id = $_POST['test_id'];
 $reviewer = $_POST['reviewer'];

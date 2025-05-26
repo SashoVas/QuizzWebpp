@@ -20,13 +20,15 @@
 
     <?php visualize_message(); ?>
 
-    <h2>Качи CSV файл за тест</h2>
-    <form action="../services/upload.php" class="upload-form" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-        <input type="text" name="test_name" placeholder="Име на теста" required>
-        <input type="file" name="csv" accept=".csv,text/csv" required>
-        <button type="submit">Качи</button>
-    </form>
+    <?php if (check_user_roles(['admin', 'teacher'])): ?>
+        <h2>Качи CSV файл за тест</h2>
+        <form action="../services/upload.php" class="upload-form" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+            <input type="text" name="test_name" placeholder="Име на теста" required>
+            <input type="file" name="csv" accept=".csv,text/csv" required>
+            <button type="submit">Качи</button>
+        </form>
+    <?php endif; ?>
 
     <h2>Налични тестове</h2>
     <ul>

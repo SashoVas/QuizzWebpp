@@ -172,6 +172,7 @@ function outputXML($xml, $test_name) {
 
 // Main execution
 check_auth_get(['id']);
+validate_user_roles(['teacher', 'admin']);
 $test_id = $_GET['id'];
 exportTestToMoodleXML($test_id);
 ?>

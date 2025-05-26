@@ -3,6 +3,7 @@ require __DIR__ . '/../database/db.php';
 require __DIR__ . '/../helpers/auth_helpers.php';
 
 check_auth_post(['id']);
+validate_user_roles(['admin']);
 
 $pdo->beginTransaction();
 try {
