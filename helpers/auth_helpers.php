@@ -75,7 +75,7 @@ function validate_user_roles($roles) {
     }
 
     if (!$found) {
-        header("Location: ../pages/main.php?message=error&error=access_denied");
+        header("Location: ../pages/main.php?message=error&error=auth");
         exit;
     }
 }
@@ -97,7 +97,7 @@ function check_user_roles($roles) {
            return true;
         }
     }
-    
+
     return false;
 }
 ?>
