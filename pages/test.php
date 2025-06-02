@@ -39,7 +39,6 @@
     <form method="post" action="../services/save_answers.php">
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
         <input type="hidden" name="test_id" value="<?= $test_id ?>">
-        Име: <input type="text" name="user" value="<?= htmlspecialchars($form_inputs['user'] ?? '') ?>" required><br>
         <hr>
 
         <?php foreach ($questions as $q): ?>

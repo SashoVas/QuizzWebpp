@@ -8,9 +8,11 @@
     $test_id = intval($_GET['id']);
 
     $reviews = $pdo->prepare(
-        "SELECT r.id, r.reviewer, r.review_time, u.user 
-        FROM reviews r 
-        JOIN results u ON r.result_id = u.id 
+        "SELECT r.id, r.user_id, r.review_time, student.username AS user, reviewer.username AS reviewer
+        FROM reviews r
+        JOIN results u ON r.result_id = u.id
+        JOIN users reviewer ON r.user_id = reviewer.id
+        JOIN users student ON u.user_id = student.id
         WHERE u.test_id = ?
         ORDER BY r.review_time DESC"
     );

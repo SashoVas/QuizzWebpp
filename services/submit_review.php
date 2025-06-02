@@ -2,17 +2,17 @@
 require __DIR__ . '/../database/db.php';
 require __DIR__ . '/../helpers/auth_helpers.php';
 
-check_auth_post(['test_id', 'reviewer', 'result_id', 'reviews']);
+check_auth_post(['test_id', 'result_id', 'reviews']);
 validate_user_roles(['teacher', 'admin']);
 
 $test_id = $_POST['test_id'];
-$reviewer = $_POST['reviewer'];
+$user_id = $_SESSION['user_id'];
 $result_id = $_POST['result_id'];
 
 $pdo->beginTransaction();
 try {
-    $stmt = $pdo->prepare("INSERT INTO reviews (result_id, reviewer) VALUES (?, ?)");
-    $stmt->execute([$result_id, $reviewer]);
+    $stmt = $pdo->prepare("INSERT INTO reviews (result_id, user_id) VALUES (?, ?)");
+    $stmt->execute([$result_id, $user_id]);
     $review_id = $pdo->lastInsertId();
 
     foreach ($_POST['reviews'] as $qid => $data) {

@@ -26,13 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function add_logout_button() {
     echo '
     <div class="test-links">
-        <form method="post" action="../services/logout.php">
+        <form method="post" action="../services/logout.php" id="logout-form">
             <input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['csrf_token']) . '">
             <input type="hidden" name="logout" value="1">
-            <button type="submit" class="logout-btn">Изход</button>
+            <button type="submit" class="logout-btn" id="specific-button">Изход</button>
         </form>
     </div>
     ';
 }
+
 
 ?>

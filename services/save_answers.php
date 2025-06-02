@@ -2,16 +2,16 @@
 require __DIR__ . '/../database/db.php';
 require __DIR__ . '/../helpers/auth_helpers.php';
 
-check_auth_post(['test_id', 'user', 'answers']);
+check_auth_post(['test_id', 'answers']);
 validate_user_roles(['student', 'admin']);
 
 $test_id = $_POST['test_id'];
-$user = $_POST['user'];
+$user_id = $_SESSION['user_id'];
 
 $pdo->beginTransaction();
 try {
-    $stmt = $pdo->prepare("INSERT INTO results (test_id, user) VALUES (?, ?)");
-    $stmt->execute([$test_id, $user]);
+    $stmt = $pdo->prepare("INSERT INTO results (test_id, user_id) VALUES (?, ?)");
+    $stmt->execute([$test_id, $user_id]);
     $result_id = $pdo->lastInsertId();
 
     foreach ($_POST['answers'] as $qid => $answer) {
@@ -27,7 +27,7 @@ try {
 
     session_start();
     $_SESSION['form_inputs'] = [
-        'user' => $user,
+        'user_id' => $user_id,
         'answers' => $_POST['answers']
     ];
 

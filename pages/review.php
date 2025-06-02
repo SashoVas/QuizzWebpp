@@ -8,7 +8,7 @@
 
     $test_id = $_GET['id'];
 
-    $results = $pdo->prepare("SELECT * FROM results WHERE test_id = ?");
+    $results = $pdo->prepare("SELECT results.*, users.username AS user FROM results JOIN users ON results.user_id = users.id WHERE results.test_id = ?");
     $results->execute([$test_id]);
 ?>
 
@@ -19,7 +19,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рецензия</title>
     <link rel="stylesheet" href="../styles/styles.css">
-    <script src="../js/form_warning.js"></script>
 </head>
 <body>
     <?php 
@@ -61,7 +60,6 @@ $questions->execute([$rid]);
     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
     <input type="hidden" name="result_id" value="<?= $rid ?>">
     <input type="hidden" name="test_id" value="<?= $test_id ?>">
-    Рецензент: <input type="text" name="reviewer" required>
     <hr>
     <?php foreach ($questions as $q): ?>
         <p><strong><?= $q['question'] ?></strong></p>

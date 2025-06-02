@@ -13,8 +13,9 @@ if (!$_FILES['csv']['tmp_name'] ) {
 $pdo->beginTransaction();
 try {
     $test_name = $_POST['test_name'];
-    $stmt = $pdo->prepare("INSERT INTO tests (name) VALUES (?)");
-    $stmt->execute([$test_name]);
+    $user_id = $_SESSION['user_id'];
+    $stmt = $pdo->prepare("INSERT INTO tests (name, user_id) VALUES (?, ?)");
+    $stmt->execute([$test_name, $user_id]);
     $test_id = $pdo->lastInsertId();
 
     $file = fopen($_FILES['csv']['tmp_name'], 'r');
