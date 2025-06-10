@@ -64,3 +64,10 @@ CREATE TABLE IF NOT EXISTS review_details (
     FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
+
+
+INSERT INTO `users` (`username`, `email`, `password_hash`, `roles`) VALUES
+('admin', 'admin@admin.admin', '$2y$10$kTI1m2FnCF/Gr/vNWMLyK.tN2yHZcp6HhDE/HlRZVOFs6QMBnzThG', 'admin'),
+('student', 'student@student.student', '$2y$10$kTI1m2FnCF/Gr/vNWMLyK.tN2yHZcp6HhDE/HlRZVOFs6QMBnzThG', 'student'),
+('teacher', 'teacher@teacher.teacher', '$2y$10$kTI1m2FnCF/Gr/vNWMLyK.tN2yHZcp6HhDE/HlRZVOFs6QMBnzThG', 'teacher'),
+('student_teacher', 'student_teacher@student_teacher.student_teacher', '$2y$10$kTI1m2FnCF/Gr/vNWMLyK.tN2yHZcp6HhDE/HlRZVOFs6QMBnzThG', 'student,teacher');

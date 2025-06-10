@@ -18,6 +18,8 @@
     );
 
     $reviews->execute([$test_id]);
+    $review_id = intval($_GET['review_id'] ?? '') ;
+
 ?>
 
 <!DOCTYPE html>
@@ -36,22 +38,21 @@
     ?>
     <h2>Рецензии на тест</h2>
     <p><a href="main.php">← Начална страница</a></p>
-    <?php 
-        if ((!isset($_GET['error'])) && $reviews->rowCount() === 0) {
+    <?php if ((!isset($_GET['error'])) && $reviews->rowCount() === 0) {
             header("Location: ./view_reviews.php?id={$test_id}&message=error&error=no_reviews");
         }
         visualize_message();
     ?>
     <ul>
         <?php foreach ($reviews as $review): ?>
-            <li>
+            <li <?php if (isset($review_id) && $review['id'] == $review_id) echo ' class="selected"'; ?>>
                 <strong>Ревю от:</strong> <?= htmlspecialchars($review['reviewer']) ?>
                 <strong>За:</strong> <?= htmlspecialchars($review['user']) ?>
                 <em>(<?= $review['review_time'] ?>)</em>
-                &nbsp;|&nbsp;
-                <a href="view_reviews.php?id=<?= $test_id ?>&review_id=<?= $review['id'] ?>">Прегледай</a>
+                <?php if(!isset($review_id) || $review['id'] != $review_id){?>
+                    <a href="view_reviews.php?id=<?= $test_id ?>&review_id=<?= $review['id'] ?>">Прегледай</a>
             </li>
-        <?php endforeach; ?>
+        <?php } endforeach; ?>
     </ul>
 
 <?php
@@ -59,22 +60,27 @@ if (!isset($_GET['review_id'])) {
     echo '</body></html>'; #browser should render page anyway, but add just in case
     exit;
 }
+$result_stmt = $pdo->prepare("SELECT result_id FROM reviews WHERE id = ?");
+$result_stmt->execute([$review_id]);
+$result_row = $result_stmt->fetch(PDO::FETCH_ASSOC);
+$result_id_for_review = $result_row ? $result_row['result_id'] : null;
 
-$review_id = intval($_GET['review_id']);
 $stmt = $pdo->prepare("
-    SELECT q.question, d.is_correct, d.comment 
-    FROM review_details d 
-    JOIN questions q ON d.question_id = q.id 
+    SELECT q.question, d.is_correct, d.comment, a.answer
+    FROM review_details d
+    JOIN questions q ON d.question_id = q.id
+    LEFT JOIN answers a ON a.question_id = d.question_id AND a.result_id = ?
     WHERE d.review_id = ?
 ");
-$stmt->execute([$review_id]);
+$stmt->execute([$result_id_for_review, $review_id]);
 $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
     <h3>Детайли на рецензия</h3>
     <?php foreach ($details as $row): ?>
-        <div class="review-detail">
+        <div <?php if ($row['is_correct']) echo ' class="review-detail-true"';else  echo ' class="review-detail-false"'?>>
             <p><strong>Въпрос:</strong> <?= htmlspecialchars($row['question']) ?></p>
+            <p><strong>Отговор на студент:</strong> <?= htmlspecialchars($row['answer']) ?></p>
             <p><strong>Верен:</strong> <?= $row['is_correct'] ? 'Да' : 'Не' ?></p>
             <?php if (!empty($row['comment'])): ?>
                 <p><strong>Коментар:</strong><br><?= nl2br(htmlspecialchars($row['comment'])) ?></p>

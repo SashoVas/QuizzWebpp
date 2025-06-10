@@ -10,6 +10,8 @@
 
     $results = $pdo->prepare("SELECT results.*, users.username AS user FROM results JOIN users ON results.user_id = users.id WHERE results.test_id = ?");
     $results->execute([$test_id]);
+    $rid = $_GET['result_id'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -37,11 +39,12 @@
     
     <ul>
         <?php foreach ($results as $r): ?>
-            <li>
-                <?= $r['user'] ?> - 
+            <li<?php if (isset($rid) && $r['id'] == $rid) echo ' class="selected"'; ?>>
+            <?= $r['user'] ?>  
+            <?php if(!isset($rid) || $r['id'] != $rid){?>
                 <a href="?id=<?= $test_id ?>&result_id=<?= $r['id'] ?>">Рецензирай</a>
             </li>
-        <?php endforeach; ?>
+        <?php } endforeach; ?>
     </ul>
 
 
@@ -51,7 +54,6 @@ if (!isset($_GET['result_id'])) {
     echo '</body></html>'; #browser should render page anyway, but add just in case
     exit;
 }
-$rid = $_GET['result_id'];
 $questions = $pdo->prepare("SELECT q.*, a.answer FROM questions q JOIN answers a ON q.id = a.question_id WHERE a.result_id = ?");
 $questions->execute([$rid]); 
 ?> 
